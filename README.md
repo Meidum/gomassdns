@@ -2,7 +2,7 @@
 
 ## Install
 
-All what you'll need is just install [massdns](https://github.com/blechschmidt/massdns) on your machine.
+All you need is just install [massdns](https://github.com/blechschmidt/massdns) on your machine.
 
 ## Usage Example:
 
