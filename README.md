@@ -22,7 +22,8 @@ func exmpl() {
 	if err := md.SetResolvers(resolvers); err != nil {
 		log.Fatal(err)
 	}
-	// or set resolver from file
+	
+	// or set resolvers from file
 	md.UserResolverPath = "./resolvers.txt"
 	
 	// run massdns with input from chan
