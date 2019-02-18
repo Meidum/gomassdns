@@ -212,7 +212,7 @@ func (md *MassDns) DoFromChan(rtype string, input <-chan string) error {
 		for cmdScanner.Scan() {
 			rr, err := converter(cmdScanner.Text())
 			if err != nil {
-				log.Fatal(err)
+				// log.Fatal(err)
 				continue
 			}
 			md.output <- rr
