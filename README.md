@@ -22,7 +22,10 @@ func exmpl() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
+	// remove all tmp/side files after working
+	defer md.Clean()
+
 	// set resolvers from slice
 	resolvers := []string{"8.8.8.8", "1.1.1.1"}
 	if err := md.SetResolversSlice(resolvers); err != nil {
@@ -45,14 +48,11 @@ func exmpl() {
 	}
 	domains <- "google.com"
 	close(domains)
-	
+
 	// or run massdns with input from file
 	if err := md.DoFromFile("SOA", "./domains.txt"); err != nil {
 		log.Fatal(err)
 	}
-
-	// remove all tmp/side files
-	md.Clean()
 }
 
 ```
