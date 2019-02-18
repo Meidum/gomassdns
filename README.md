@@ -2,11 +2,9 @@
 
 ## Install
 
-You'll need to install [massdns](https://github.com/blechschmidt/massdns) on your machine.
+All what you'll need is just install [massdns](https://github.com/blechschmidt/massdns) on your machine.
 
-After that, you can use this library.
-
-Example:
+## Usage Example:
 
 ```Go
 func exmpl() {
