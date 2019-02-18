@@ -12,11 +12,17 @@ We use https://github.com/miekg/dns for parsing and output.
 func exmpl() {
 
 	// gen MassDns struct from massdns binary path
-	md := gomassdns.New("/usr/bin/massdns")
+	md, err := gomassdns.New("/usr/bin/massdns")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// or massdns command
-	md := gomassdns.New("massdns")
-
+	md, err := gomassdns.New("massdns")
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	// set resolvers from slice
 	resolvers := []string{"8.8.8.8", "1.1.1.1"}
 	if err := md.SetResolversSlice(resolvers); err != nil {
@@ -36,7 +42,7 @@ func exmpl() {
 	if err := md.DoFromChan("SOA", domains); err != nil {
 		log.Fatal(err)
 	}
-
+	
 	// or run massdns with input from file
 	if err := md.DoFromFile("SOA", "./domains.txt"); err != nil {
 		log.Fatal(err)
