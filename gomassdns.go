@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"sync"
