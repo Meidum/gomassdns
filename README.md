@@ -10,35 +10,38 @@ We use https://github.com/miekg/dns for parsing and output.
 
 ```Go
 func exmpl() {
-	var md MassDns
-	
-	// set filepath for massdns binary
-	md.BinaryPath = "/usr/bin/massdns"
-	
-	// set output channel for dns.RR
-	rc := make(chan dns.RR)
-	md.Output = rc
+
+	// gen MassDns struct from massdns binary path
+	md := gomassdns.New("/usr/bin/massdns")
+
+	// or massdns command
+	md := gomassdns.New("massdns")
 
 	// set resolvers from slice
 	resolvers := []string{"8.8.8.8", "1.1.1.1"}
-	if err := md.SetResolvers(resolvers); err != nil {
+	if err := md.SetResolversSlice(resolvers); err != nil {
 		log.Fatal(err)
 	}
-	
-	// or set resolvers from file
-	md.UserResolverPath = "./resolvers.txt"
-	
+
+	// or from file
+	if err := md.SetResolversFile("./resolvers.txt"); err != nil {
+		log.Fatal(err)
+	}
+
+	// get output chan for dns.RR
+	oc := md.GetOutput()
+
 	// run massdns with input from chan
 	domains := make(chan string)
 	if err := md.DoFromChan("SOA", domains); err != nil {
 		log.Fatal(err)
 	}
-	
+
 	// or run massdns with input from file
 	if err := md.DoFromFile("SOA", "./domains.txt"); err != nil {
 		log.Fatal(err)
 	}
-	
+
 	// remove all tmp/side files
 	md.Clean()
 }
