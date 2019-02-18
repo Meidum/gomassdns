@@ -4,6 +4,8 @@
 
 All you need is just install [massdns](https://github.com/blechschmidt/massdns) on your machine.
 
+We use https://github.com/miekg/dns for parsing and output.
+
 ## Usage Example:
 
 ```Go
