@@ -25,7 +25,7 @@ func New(binPath string) (*MassDns, error) {
 	// check is file/command exist
 	cmd := exec.Command("/bin/sh", "-c", "command -v "+binPath)
 	if err := cmd.Run(); err != nil {
-		return nil, err
+		return nil, errors.New("File or command not found")
 	}
 
 	// set binary path
