@@ -34,7 +34,7 @@ func (conf *MassDns) SetResolvers(resolvers []string) error {
 	return nil
 }
 
-// Remove all sides files
+// Remove all temp/side files
 func (conf *MassDns) Clean() error {
 	if conf.tempResolverPath != "" {
 		os.Remove(conf.tempResolverPath)
@@ -58,7 +58,7 @@ func converter(line string) (dns.RR, error) {
 	return rr, nil
 }
 
-// Run massdns with imput file
+// Run massdns with input from file
 func (conf *MassDns) DoFromFile(rtype string, ifile string) error {
 	var rf string
 	if conf.UserResolverPath != "" {
@@ -112,7 +112,7 @@ func (conf *MassDns) DoFromFile(rtype string, ifile string) error {
 	return nil
 }
 
-// Run massdns with input chan
+// Run massdns with input from chan
 func (conf *MassDns) DoFromChan(rtype string, input <-chan string) error {
 	var rf string
 	if conf.UserResolverPath != "" {
