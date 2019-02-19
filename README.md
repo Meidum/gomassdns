@@ -11,15 +11,17 @@ We use https://github.com/miekg/dns for parsing and output.
 ```Go
 func exmpl() {
 
-	// gen MassDns struct from massdns binary path
-	md, err := gomassdns.New("/usr/bin/massdns")
-	if err != nil {
+	// gen MassDns struct
+	// by default we use "massdns" command
+	md := gomassdns.New()
+
+	// or you could specify binary path
+	if err := md.SetBinaryPath("/usr/bin/massdns"); err != nil {
 		log.Fatal(err)
 	}
 
-	// or massdns command
-	md, err := gomassdns.New("massdns")
-	if err != nil {
+	// or massdns custom command
+	if err := md.SetBinaryPath("massd"); err != nil {
 		log.Fatal(err)
 	}
 
@@ -43,7 +45,7 @@ func exmpl() {
 	// run massdns with input from chan
 	// you must close the chan to stop working!
 	domains := make(chan string)
-	
+
 	go func() {
 		domains <- "google.com"
 		close(domains)

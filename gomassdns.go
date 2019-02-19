@@ -19,7 +19,7 @@ type MassDns struct {
 }
 
 // New - MassDns generator
-func New() (*MassDns, error) {
+func New() *MassDns {
 	var md MassDns
 
 	// check default massdns command
@@ -33,7 +33,7 @@ func New() (*MassDns, error) {
 	// generate output channel
 	oc := make(chan dns.RR)
 	md.output = oc
-	return &md, nil
+	return &md
 }
 
 // SetBinaryPath - setup binary path/command for massdns
@@ -132,6 +132,11 @@ func (md *MassDns) DoFromFile(rtype string, ifile string) error {
 		return errors.New("Resolvers not set")
 	}
 
+	// is massdns binary path or command set
+	if md.binaryPath == "" {
+		return errors.New("Massdns binary/command not found")
+	}
+
 	// setup massdns with input from file
 	cmd := exec.Command(
 		md.binaryPath,
@@ -186,6 +191,11 @@ func (md *MassDns) DoFromChan(rtype string, input <-chan string) error {
 	}
 	if rf == "" {
 		return errors.New("Resolvers not set")
+	}
+
+	// is massdns binary path or command set
+	if md.binaryPath == "" {
+		return errors.New("Massdns binary/command not found")
 	}
 
 	// setup massdns with input from STDIN
