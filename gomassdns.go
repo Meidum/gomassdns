@@ -121,6 +121,7 @@ func converter(line string) (dns.RR, error) {
 
 // DoFromFile - run massdns with input from file
 func (md *MassDns) DoFromFile(rtype string, ifile string) error {
+	// is resolvers set
 	var rf string
 	if md.userResolversPath != "" {
 		rf = md.userResolversPath
@@ -182,6 +183,7 @@ func (md *MassDns) DoFromFile(rtype string, ifile string) error {
 
 // DoFromChan - run massdns with input from chan
 func (md *MassDns) DoFromChan(rtype string, input <-chan string) error {
+	// is resolvers set
 	var rf string
 	if md.userResolversPath != "" {
 		rf = md.userResolversPath
