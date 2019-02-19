@@ -43,11 +43,15 @@ func exmpl() {
 	// run massdns with input from chan
 	// you must close the chan to stop working!
 	domains := make(chan string)
+	
+	go func() {
+		domains <- "google.com"
+		close(domains)
+	}()
+
 	if err := md.DoFromChan("SOA", domains); err != nil {
 		log.Fatal(err)
 	}
-	domains <- "google.com"
-	close(domains)
 
 	// or run massdns with input from file
 	if err := md.DoFromFile("SOA", "./domains.txt"); err != nil {
