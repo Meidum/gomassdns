@@ -19,23 +19,34 @@ type MassDns struct {
 }
 
 // MassDns generator, just set massdns binary path or command
-func New(binPath string) (*MassDns, error) {
+func New() (*MassDns, error) {
 	var md MassDns
 
-	// check is file/command exist
-	cmd := exec.Command("/bin/sh", "-c", "command -v "+binPath)
-	if err := cmd.Run(); err != nil {
-		return nil, errors.New("File or command not found")
+	// check default massdns command
+	c := "massdns"
+	cmd := exec.Command("/bin/sh", "-c", "command -v "+c)
+	if err := cmd.Run(); err == nil {
+		// set command if exist
+		md.binaryPath = c
 	}
-
-	// set binary path
-	md.binaryPath = binPath
 
 	// generate output channel
 	oc := make(chan dns.RR)
 	md.output = oc
-
 	return &md, nil
+}
+
+// SetBinaryPath - setup binary path/command for massdns
+func (md *MassDns) SetBinaryPath(bp string) error {
+	// check is file/command exist
+	cmd := exec.Command("/bin/sh", "-c", "command -v "+bp)
+	if err := cmd.Run(); err != nil {
+		return errors.New("File or command not found")
+	}
+
+	// set binary path
+	md.binaryPath = bp
+	return nil
 }
 
 // Get massdns output chan for dns.RR
