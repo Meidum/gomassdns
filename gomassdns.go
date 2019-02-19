@@ -46,6 +46,9 @@ func (md *MassDns) GetOutput() <-chan dns.RR {
 
 // Setup resolvers from slice
 func (md *MassDns) SetResolversSlice(resolvers []string) error {
+	// remove old resolvers if set
+	md.Clean()
+
 	// gen random tmp file
 	rf, err := ioutil.TempFile("/tmp", "resolvers")
 	if err != nil {
