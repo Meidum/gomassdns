@@ -15,10 +15,10 @@ type MassDns struct {
 	binaryPath        string      // path to massnds binary
 	output            chan dns.RR // chan for output records
 	userResolversPath string      // path to file with dns resolvers
-	tempResolversPath string      // path to file with dns resolvers, if user give slice of resolvers
+	tempResolversPath string      // path to temp file with dns resolvers
 }
 
-// MassDns generator, just set massdns binary path or command
+// New - MassDns generator
 func New() (*MassDns, error) {
 	var md MassDns
 
@@ -49,13 +49,13 @@ func (md *MassDns) SetBinaryPath(bp string) error {
 	return nil
 }
 
-// Get massdns output chan for dns.RR
+// GetOutput - get massdns output chan for dns.RR
 func (md *MassDns) GetOutput() <-chan dns.RR {
 	oc := md.output
 	return oc
 }
 
-// Setup resolvers from slice
+// SetResolversSlice - setup resolvers from slice
 func (md *MassDns) SetResolversSlice(resolvers []string) error {
 	// remove old resolvers if set
 	md.Clean()
@@ -78,7 +78,7 @@ func (md *MassDns) SetResolversSlice(resolvers []string) error {
 	return nil
 }
 
-// Setup resolvers from user file
+// SetResolversFile - setup resolvers from user file
 func (md *MassDns) SetResolversFile(rpath string) error {
 	// check is file exist
 	if _, err := os.Stat(rpath); os.IsNotExist(err) {
@@ -101,7 +101,7 @@ func (md *MassDns) Clean() error {
 	return nil
 }
 
-// Convert massdns output line to dns.RR
+// converter - convert massdns output line to dns.RR
 func converter(line string) (dns.RR, error) {
 	rr, err := dns.NewRR(line)
 	if err != nil {
@@ -119,7 +119,7 @@ func converter(line string) (dns.RR, error) {
 	return rr, nil
 }
 
-// Run massdns with input from file
+// DoFromFile - run massdns with input from file
 func (md *MassDns) DoFromFile(rtype string, ifile string) error {
 	var rf string
 	if md.userResolversPath != "" {
@@ -175,7 +175,7 @@ func (md *MassDns) DoFromFile(rtype string, ifile string) error {
 	return nil
 }
 
-// Run massdns with input from chan
+// DoFromChan - run massdns with input from chan
 func (md *MassDns) DoFromChan(rtype string, input <-chan string) error {
 	var rf string
 	if md.userResolversPath != "" {
