@@ -39,8 +39,13 @@ func exmpl() {
 		log.Fatal(err)
 	}
 
-	// get output chan for dns.RR
+	// get generated output chan for dns.RR
+	// in read mode
 	oc := md.GetOutput()
+
+	// or specify your output chan
+	oc := make(chan dns.RR)
+	md.SetOutput(oc)
 
 	// run massdns with input from chan
 	// you must close the chan to stop working!

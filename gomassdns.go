@@ -49,6 +49,12 @@ func (md *MassDns) SetBinaryPath(bp string) error {
 	return nil
 }
 
+// SetOutput - setup massdns output chan for dns.RR
+// Chan without directions, because we have GetOutput meth
+func (md *MassDns) SetOutput(oc chan dns.RR) {
+	md.output = oc
+}
+
 // GetOutput - get massdns output chan for dns.RR
 func (md *MassDns) GetOutput() <-chan dns.RR {
 	oc := md.output
