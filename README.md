@@ -67,4 +67,3 @@ func exmpl() {
 }
 
 ```
-by meidum
